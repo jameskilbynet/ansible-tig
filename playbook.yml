@@ -1,12 +1,12 @@
 ---
 - name: Prerequisites
-  hosts: rpi
+  hosts: tig
   remote_user: ubuntu
   become: true
   tasks:
-    - name: Set timezone to Europe/Paris
+    - name: Set timezone to Europe/London
       timezone:
-        name: Europe/Paris
+        name: Europe/London
 
     - name: Add InfluxData Apt key
       apt_key:
@@ -30,7 +30,7 @@
         state: present
 
 - name: InfluxDB
-  hosts: rpi
+  hosts: tig
   remote_user: ubuntu
   become: true
   gather_facts: false
@@ -67,7 +67,7 @@
       when: "influxdb_dbname not in response.json | json_query('results[0].series[0].values[*][0]')"
 
 - name: Telegraf
-  hosts: rpi
+  hosts: tig
   remote_user: ubuntu
   become: true
   gather_facts: false
@@ -108,7 +108,7 @@
         state: restarted
 
 - name: Grafana
-  hosts: rpi
+  hosts: tig
   remote_user: ubuntu
   become: true
   gather_facts: false
